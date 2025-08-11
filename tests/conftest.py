@@ -19,7 +19,6 @@ def driver():
     service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
     
-    # Set implicit wait
     driver.implicitly_wait(10)
     
     yield driver
@@ -34,7 +33,6 @@ def mobile_driver():
     chrome_options = Options()
     chrome_options.add_argument("--headless")
     
-    # Mobile device simulation
     mobile_emulation = {
         "deviceMetrics": {"width": 375, "height": 667, "pixelRatio": 2.0},
         "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X)"

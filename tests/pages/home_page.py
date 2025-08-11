@@ -55,19 +55,16 @@ class HomePage(BasePage):
         """Get current theme (light/dark)"""
         html_element = self.driver.find_element(By.TAG_NAME, "html")
         
-        # Check data-theme attribute
         data_theme = html_element.get_attribute("data-theme")
         if data_theme:
             return data_theme
         
-        # Check class attribute
         class_name = html_element.get_attribute("class") or ""
         if "dark" in class_name.lower():
             return "dark"
         elif "light" in class_name.lower():
             return "light"
         
-        # Check body background color as fallback
         body_bg = self.driver.execute_script(
             "return window.getComputedStyle(document.body).backgroundColor"
         )
@@ -91,7 +88,7 @@ class HomePage(BasePage):
         
         for link in links:
             text = link.text.strip()
-            if text:  # Only add non-empty text
+            if text:  
                 link_texts.append(text)
         
         return link_texts
