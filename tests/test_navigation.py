@@ -2,6 +2,26 @@ import pytest
 from pages.home_page import HomePage
 from selenium.webdriver.common.by import By
 
+def test_get_started_navigates_to_learn(self, driver):
+    """Check that get started leads to learn page"""
+    from pages.home_page import HomePage
+    from selenium.webdriver.common.by import By
+    from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.support import expected_conditions as EC
+
+    home = HomePage(driver)
+    home.navigate_to_homepage()
+    original = driver.current_url
+
+    clicked = home.click_get_started()
+    if not clicked:
+        pytest.skip("Get Started button not found on the homepage")
+
+    WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
+    assert driver.current_url != original
+    
+    assert "/learn" in driver.current_url
+    
 class TestNavigation:
     """Test cases for navigation functionality"""
     
