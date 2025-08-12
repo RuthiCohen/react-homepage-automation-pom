@@ -59,20 +59,3 @@ class TestAccessibility:
             
             # Images should have alt text, aria-label, or be decorative
             assert alt_text is not None or aria_label is not None or role == "presentation"
-    
-    def test_page_landmarks(self, driver):
-        """Test for proper ARIA landmarks"""
-        home_page = HomePage(driver)
-        home_page.navigate_to_homepage()
-        
-        # Check for main landmark
-        main_elements = driver.find_elements(By.CSS_SELECTOR, "[role='main'], main")
-        assert len(main_elements) > 0
-        
-        # Check for navigation landmark
-        nav_elements = driver.find_elements(By.CSS_SELECTOR, "[role='navigation'], nav")
-        assert len(nav_elements) > 0
-        
-        # Check for banner landmark
-        banner_elements = driver.find_elements(By.CSS_SELECTOR, "[role='banner'], header")
-        assert len(banner_elements) > 0

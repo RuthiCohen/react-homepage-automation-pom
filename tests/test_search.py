@@ -9,55 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from pages.home_page import HomePage
 from pages.search_page import SearchPage
 
-def test_search_save_and_persist(self, driver):
-    home_page = HomePage(driver)
-    search_page = SearchPage(driver)
-
-    home_page.navigate_to_homepage()
-
-    assert open_search_or_shortcut(driver, home_page), "Could not open search"
-
-    assert search_page.type_in_search("custom hook")
-    time.sleep(1) 
-
-    starred = False
-    for sel in [
-        "button[title*='Save']",
-        "button[aria-label*='Save']",
-        ".DocSearch-Favorite"
-    ]:
-        try:
-            btn = WebDriverWait(driver, 3).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, sel))
-            )
-            btn.click()
-            starred = True
-            break
-        except Exception:
-            pass
-
-    if not starred:
-        pytest.skip("Star/Save button not found on this search UI")
-
-    assert close_search(driver)
-    assert open_search_or_shortcut(driver, home_page), "Could not reopen search"
-
-    saved = driver.execute_script("""
-      try {
-        const keys = Object.keys(localStorage);
-        const key = keys.find(k =>
-          k.toLowerCase().includes('docsearch') &&
-          (k.toLowerCase().includes('favorite') || k.toLowerCase().includes('recent'))
-        );
-        if (!key) return false;
-        const val = localStorage.getItem(key) || '';
-        return val.toLowerCase().includes('custom hook');
-      } catch (e) {
-        return false;
-      }
-    """)
-    assert saved, "Saved search not found in localStorage"
-    
 
 def open_search_or_shortcut(driver, home_page):
     """Try the site's search button"""
@@ -171,3 +122,53 @@ class TestSearch:
                     assert new_url != original_url
         else:
             pytest.skip("Search functionality not available")
+            
+    def test_search_save_and_persist(self, driver):
+        home_page = HomePage(driver)
+        search_page = SearchPage(driver)
+
+        home_page.navigate_to_homepage()
+
+        assert open_search_or_shortcut(driver, home_page), "Could not open search"
+
+        assert search_page.type_in_search("custom hook")
+        time.sleep(1) 
+
+        starred = False
+        for sel in [
+            "button[title*='Save']",
+            "button[aria-label*='Save']",
+            ".DocSearch-Favorite"
+        ]:
+            try:
+                btn = WebDriverWait(driver, 3).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, sel))
+                )
+                btn.click()
+                starred = True
+                break
+            except Exception:
+                pass
+
+        if not starred:
+            pytest.skip("Star/Save button not found on this search UI")
+
+        assert close_search(driver)
+        assert open_search_or_shortcut(driver, home_page), "Could not reopen search"
+
+        saved = driver.execute_script("""
+        try {
+            const keys = Object.keys(localStorage);
+            const key = keys.find(k =>
+            k.toLowerCase().includes('docsearch') &&
+            (k.toLowerCase().includes('favorite') || k.toLowerCase().includes('recent'))
+            );
+            if (!key) return false;
+            const val = localStorage.getItem(key) || '';
+            return val.toLowerCase().includes('custom hook');
+        } catch (e) {
+            return false;
+        }
+        """)
+        assert saved, "Saved search not found in localStorage"
+        

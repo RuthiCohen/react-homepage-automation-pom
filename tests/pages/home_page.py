@@ -116,6 +116,7 @@ class HomePage(BasePage):
         """Scroll to footer"""
         self.scroll_to_bottom()
     
+    
     def toggle_mobile_menu(self):
         """Toggle mobile navigation menu"""
         if self.is_element_visible(self.MOBILE_MENU_TOGGLE):

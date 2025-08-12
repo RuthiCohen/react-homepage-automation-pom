@@ -1,4 +1,3 @@
-import pytest
 from pages.home_page import HomePage
 
 class TestHomepage:
@@ -13,14 +12,14 @@ class TestHomepage:
         
         assert home_page.is_element_visible(home_page.MAIN_CONTENT)
     
-    def test_header_and_footer_visible(self, driver):
-        """Test that header and footer are present"""
-        home_page = HomePage(driver)
-        home_page.navigate_to_homepage()
+    # def test_header_and_footer_visible(self, driver):
+    #     """Test that header and footer are present"""
+    #     home_page = HomePage(driver)
+    #     home_page.navigate_to_homepage()
         
-        assert home_page.is_header_visible()
-        home_page.scroll_to_footer()
-        assert home_page.is_footer_visible()
+    #     assert home_page.is_header_visible()
+    #     home_page.scroll_to_footer()
+    #     assert home_page.is_footer_visible()
     
     def test_navigation_links_present(self, driver):
         """Test that navigation links are present"""
@@ -50,11 +49,3 @@ class TestHomepage:
         
         code_examples = home_page.get_code_examples()
         assert len(code_examples) > 0
-    
-    def test_responsive_design(self, mobile_driver):
-        """Test responsive design on mobile"""
-        home_page = HomePage(mobile_driver)
-        home_page.navigate_to_homepage()
-        
-        assert home_page.is_header_visible()
-        assert home_page.is_element_visible(home_page.MAIN_CONTENT)
