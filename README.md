@@ -19,7 +19,7 @@ source .venv/bin/activate
 
 3. Install required packages
 ```bash
-pip install -r req.txt
+pip install -r requirements.txt
 ```
 ---
 ### Running tests
